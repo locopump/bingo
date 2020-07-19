@@ -21,6 +21,9 @@ Route::group(['prefix' => 'game', 'namespace' => 'API'], function () {
 Route::group(['prefix' => 'card_structure', 'namespace' => 'API'], function () {
     Route::get('/', 'CardStructureController@getStructure');
 });
+Route::group(['prefix' => 'game_cards', 'namespace' => 'API'], function () {
+    Route::post('/', 'GameCardsController@createGameCards');
+});
 
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();

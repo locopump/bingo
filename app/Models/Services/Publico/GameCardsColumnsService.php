@@ -4,97 +4,33 @@
 namespace App\Models\Services\Publico;
 
 
-use App\Models\Repositories\Publico\CardStructure\CardStructureInterface;
+use App\Models\Repositories\Publico\GameCardsColumns\GameCardsColumnsInterface;
 
-class CardStructureService
+class GameCardsColumnsService
 {
-    protected $card_structure_repo;
+    protected $game_cards_columns_repo;
 
-    public function __construct(CardStructureInterface $card_structure_repo)
+    public function __construct(GameCardsColumnsInterface $game_cards_columns_repo)
     {
-        $this->card_structure_repo = $card_structure_repo;
+        $this->game_cards_columns_repo = $game_cards_columns_repo;
     }
 
-    public function getAll()
+
+
+    public function registerRaw(array $data)
     {
         $response['status'] = 0;
         $response['message'] = '';
-        $response['data'] = [];
-        $code = 400;
-        $headers = ['Content-Type' => 'application/json; charset=UTF-8'];
-
-        try {
-            $card_structure = $this->card_structure_repo->getAll();
-
-            if ($card_structure) {
-                $code = 200;
-                $response = [
-                    'success' => true,
-                    'data' => $card_structure,
-                    'message' => 'Success.',
-                    'code' => $code
-                ];
-
-            } else {
-                $code = 202;
-                $response = [
-                    'success' => false,
-                    'error' =>
-                        [
-                            'type' => 'Query',
-                            'description' => null
-                        ],
-                    'message' => 'Error detected!!',
-                    'code' => $code
-                ];
-            }
-
-        } catch (QueryException $e) {
-            $response = [
-                'success' => false,
-                'error' =>
-                    [
-                        'type' => 'Query',
-                        'description' => null
-                    ],
-                'message' => '¡ERROR! contact with support.',
-                'code' => $code
-            ];
-            Log::critical('Card Structure',
-                ['request' => $response, 'exception' => $e->getMessage()]);
-        } catch (Exception $e) {
-            $response = [
-                'success' => false,
-                'error' =>
-                    [
-                        'type' => 'Code',
-                        'description' => null
-                    ],
-                'message' => '¡ERROR! contact with support.',
-                'code' => $code
-            ];
-            Log::alert('Card Structure',
-                ['request' => $response, 'exception' => $e->getMessage()]);
-        }
-
-        return response()->json($response, $code, $headers);
-    }
-
-    public function getAllRaw()
-    {
-        $response['status'] = 0;
-        $response['message'] = '';
-        $response['data'] = [];
         $response['error'] = [];
 
         try {
-            $card_structure = $this->card_structure_repo->getAll();
+            $data = $this->game_cards_columns_repo->register($data);
 
-            if ($card_structure) {
+            if ($data) {
                 $response = [
                     'status' => 1,
-                    'data' => $card_structure,
-                    'message' => 'Success.',
+                    'data' => $data,
+                    'message' => 'Game created successfully.',
                 ];
 
             } else {
@@ -107,6 +43,59 @@ class CardStructureService
                     'message' => 'Error detected!!',
                 ];
             }
+        } catch (QueryException $e) {
+            $response = [
+                'error' =>
+                    [
+                        'type' => 'Query',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+            ];
+            Log::critical('Add new Game Card Value',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        } catch (Exception $e) {
+            $response = [
+                'error' =>
+                    [
+                        'type' => 'Code',
+                        'description' => null
+                    ],
+                'message' => '¡ERROR! contact with support.',
+            ];
+            Log::alert('Add new Game Card Value',
+                ['request' => $response, 'exception' => $e->getMessage()]);
+        }
+
+        return $response;
+    }
+
+    public function getAllRaw(int $gamec_id)
+    {
+        $response['status'] = 0;
+        $response['message'] = '';
+        $response['records'] = [];
+
+        try {
+            $column = $this->game_cards_columns_repo->getColumnsByCard($gamec_id);
+
+            if ( !empty($column) ) {
+                $response = [
+                    'status' => 1,
+                    'data' => $column,
+                    'message' => 'Success.',
+                ];
+
+            } else {
+                $response = [
+                    'error' =>
+                        [
+                            'type' => 'Query',
+                            'description' => null
+                        ],
+                    'message' => 'Error detected!!.',
+                ];
+            }
 
         } catch (QueryException $e) {
             $response = [
@@ -117,8 +106,8 @@ class CardStructureService
                     ],
                 'message' => '¡ERROR! contact with support.',
             ];
-            Log::critical('Card Structure',
-                ['data' => $response, 'exception' => $e->getMessage()]);
+            Log::critical('Search Ball',
+                ['request' => $response, 'exception' => $e->getMessage()]);
         } catch (Exception $e) {
             $response = [
                 'error' =>
@@ -128,8 +117,8 @@ class CardStructureService
                     ],
                 'message' => '¡ERROR! contact with support.',
             ];
-            Log::alert('Card Structure',
-                ['data' => $response, 'exception' => $e->getMessage()]);
+            Log::alert('Search Ball',
+                ['request' => $response, 'exception' => $e->getMessage()]);
         }
 
         return $response;
