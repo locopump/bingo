@@ -7,6 +7,19 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
+## Server Requirements
+- PHP >= 7.2.5
+- BCMath PHP Extension
+- Ctype PHP Extension
+- Fileinfo PHP extension
+- JSON PHP Extension
+- Mbstring PHP Extension
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Tokenizer PHP Extension
+- XML PHP Extension
+- Composer
+
 ## Up Project
 
 Execute the next steps
