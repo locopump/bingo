@@ -37,8 +37,12 @@ Execute the next steps
 - php artisan key:generate
 - php artisan migrate
 - php artisan db:seed
+- If you wish try with dummy data, execute:
 ```
-Restart db: 
+- php artisan db:seed --class=DummyDataSeeder
+```
+- If you wish restart the database:
+```
 - php artisan migrate:fresh --seed
 ```
 
