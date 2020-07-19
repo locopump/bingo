@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Models\Repositories\Publico;
+namespace App\Models\Repositories\Publico\Game;
 
 
 use App\Models\Entities\Publico\Game;

@@ -50,10 +50,12 @@ Execute the next steps
 ```
 - api/game/ | Method: post | create a game 
       => params: { String game_name, String game_description } 
+- api/card_structure/ | Method: get | Card's Structure
 - api/game/ | Method: get | list of games
 - api/game/{id} | Method: get | select a game
 
 - api/card/ | Method: post | create a card | not yet
+      => params: { Integer game_id } 
 - api/throw/ | Method: get | get a coordinate | not yet
 - api/verify_winner/ | Method: get | Check all cards to find a winner | not yet
 - api/verify_winner/{card_id} | Method: get | Check if a card is winner | not yet
